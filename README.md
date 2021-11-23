@@ -1,4 +1,4 @@
-# React Native Boilerplate
+# React Native Boilerplate for Wallet Crypto Wallet Connect
 
 This project is using:
 
