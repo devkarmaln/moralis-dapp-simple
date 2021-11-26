@@ -1,0 +1,24 @@
+{
+    "username": "S9qpB9LE8ddcWNAE85pILCfbL",
+    "authData": {
+        "moralisEth": {
+            "id": "0xa658781e280f7b4139422e33e288261d278abea4",
+            "signature": "0xad84d82fb3dd365b25afb91365002a9434b21447f43b596e900a2815f06bc7ad775d3cd5153d0cefe26e7299a5e4832d9858df26763fd8d7e2d95315e0c330631b",
+            "data": "Moralis Authentication\n\nId: lDKPbigRWC5SeICLqRhMvEO8TOGvC73Ny8abmAXu:1637750978230"
+        }
+    },
+    "createdAt": "2021-11-23T10:04:54.743Z",
+    "updatedAt": "2021-11-24T10:49:40.326Z",
+    "accounts": [
+        "0xa658781e280f7b4139422e33e288261d278abea4"
+    ],
+    "ethAddress": "0xa658781e280f7b4139422e33e288261d278abea4",
+    "ACL": {
+        "bzkIBhdiSEDX3Ap2UbXApBqy": {
+            "read": true,
+            "write": true
+        }
+    },
+    "sessionToken": "r:369f23a46bf057cc4752a7b1b9b5fc66",
+    "objectId": "bzkIBhdiSEDX3Ap2UbXApBqy"
+}
