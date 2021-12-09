@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Linking, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import {
     useMoralis,
     useMoralisWeb3Api,
@@ -20,9 +20,11 @@ const styles = StyleSheet.create({
 });
 
 function Web3ApiExample(): JSX.Element {
-    const { Moralis, enableWeb3, isWeb3Enabled, web3EnableError } = useMoralis();
+    const connector = useWalletConnect();
+
+    const { Moralis, user } = useMoralis();
     const {
-        account: { getNativeBalance },
+        account: { getNativeBalance }
     } = useMoralisWeb3Api();
 
     // defaults to eth chain and user logged in address, 
@@ -30,33 +32,32 @@ function Web3ApiExample(): JSX.Element {
     const { data, isFetching, error } = useMoralisWeb3ApiCall(getNativeBalance, { chain: "ropsten" });
 
     const [address, setAddress] = useState("")
+    const [balance, setBalance] = useState(0.0)
     const [amount, setAmount] = useState(0.0)
 
-    const { fetch } = useWeb3Transfer({
-        amount: Moralis.Units.ETH(amount.toString()),
-        receiver: address.toString(),
-        type: "native",
-    });
+    const [transectionHash, setTransectionhash] = useState()
 
     useEffect(() => {
-
-    })
+        let bal = parseFloat((data ? data.balance / ("1e" + "18") : "0").toString())
+        setBalance(bal)
+    }, [transectionHash])
 
     const transfer = async () => {
+        // const web3 = await Moralis.Web3.enable()
+        // console.log("WEB3", web3.version)
         if (isValidate()) {
-            enableWeb3()
 
-            console.log("isWeb3Enabled", isWeb3Enabled)
-            console.log("web3EnableError", web3EnableError)
-
-            fetch();
-
-            // const web3 = await Moralis.Web3.enable();
-
-            // await account
-            //     .getTokenTransfers({ address: user.get("ethAddress"), chain: "ropsten" })
-            //     .then((result) => console.log(result))
-            //     .catch((e) => alert(e.message));
+            await connector.sendTransaction({
+                from: user.get("ethAddress"),
+                to: address.toString(),
+                value: Moralis.Units.Token(amount, 18),
+                type: "native"
+            })
+                .then(res => {
+                    setTransectionhash(res)
+                    console.log("Transection Hash => ", res)
+                })
+                .catch((e) => alert(e))
         }
     }
 
@@ -142,6 +143,15 @@ function Web3ApiExample(): JSX.Element {
                         title="Transfer"></Button>
                 </View>
 
+                {/* Show transection */}
+                {
+                    transectionHash != undefined && (
+                        <TouchableOpacity onPress={() => Linking.openURL("https://ropsten.etherscan.io/tx/" + transectionHash)}>
+                            <Text>{"Transection Hash => " + transectionHash}</Text>
+                        </TouchableOpacity>
+                    )
+                }
+
             </View>
         </View>
     );
@@ -172,6 +182,9 @@ function App(): JSX.Element {
         isAuthenticated,
         logout,
     } = useMoralis();
+
+    useEffect(() => {
+    }, [])
 
     return (
         <View style={[StyleSheet.absoluteFill, styles.white]}>
