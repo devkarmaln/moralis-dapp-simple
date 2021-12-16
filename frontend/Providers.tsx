@@ -28,6 +28,14 @@ Moralis.setAsyncStorage(AsyncStorage);
 // @ts-ignore
 Moralis.enable = enableViaWalletConnect;
 
+let customProp = {};
+
+if (Platform.OS === "ios") {
+  customProp = {
+    renderQrcodeModal: Qrcode,
+  };
+}
+
 const walletConnectOptions: WalletConnectProviderProps = {
   redirectUrl: Platform.OS === "web" ? window.location.origin : `${scheme}://`,
   storageOptions: {
@@ -46,6 +54,8 @@ const walletConnectOptions: WalletConnectProviderProps = {
   },
   // Uncomment to show a QR-code to connect a wallet
   // renderQrcodeModal: Qrcode,
+  // enable if QR link in iOS and link using application in android
+  ...customProp,
 };
 
 export const Providers = ({ children }: ProvidersProps) => {
@@ -54,7 +64,8 @@ export const Providers = ({ children }: ProvidersProps) => {
       <MoralisProvider
         appId={appId}
         serverUrl={serverUrl}
-        environment={environment}>
+        environment={environment}
+      >
         {children}
       </MoralisProvider>
     </WalletConnectProvider>
