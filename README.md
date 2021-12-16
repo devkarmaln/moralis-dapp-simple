@@ -16,7 +16,6 @@ Check the corresponding docs for additional information and help.
 - Make sure you've logged into expo-cli.
 - Copy this repo
 - `cd` into the project
-- Copy `.env.example` to `.env`
 - install dependencies via `yarn install`
 
 #### Start
@@ -24,3 +23,7 @@ Check the corresponding docs for additional information and help.
 - Web: `yarn web`
 - IOS: `yarn ios`
 - Android: `yarn android`
+
+#### Instruction
+- Now Metamask linking and trasaction done by QR Model in iOS device
+- If you wants to use deeplinking in iOS then comment frontend > Provider.tsx > line no 58
